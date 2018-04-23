@@ -19,16 +19,11 @@ jobs:
       - run:
           name: Build application Docker image
           command: |
-          #  docker build -f Dockerfile -t circleci-mongod .
             docker build -t 463442625423.dkr.ecr.us-east-2.amazonaws.com/yello-team:$CIRCLE_SHA1 .
             docker build -t 463442625423.dkr.ecr.us-east-2.amazonaws.com/yello-team:latest .
       - deploy:
           name: Push Docker image
           command: |
-          # login="docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS"
-          #  ${login}
-          #  docker tag circleci-mongod "easymetrics/circleci-mongod"
-          #  docker push "easymetrics/circleci-mongod"
           docker run -d -p 8080:8080 --name yello-team 463442625423.dkr.ecr.us-east-2.amazonaws.com/yello-team:$CIRCLE_SHA1; sleep 10
           chmod +x ./deploy.sh
           ./deploy.sh
